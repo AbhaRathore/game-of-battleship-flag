@@ -1,7 +1,7 @@
 from random import randint
 
 board = []
-
+turn=0
 for x in range(5):
     board.append(["O"] * 5)
 
@@ -23,22 +23,28 @@ ship_col = random_col(board)
 
 # Everything from here on should go in your for loop!
 # Be sure to indent four spaces!
-for turn in range(4):
+while turn<5 :
     guess_row = int(input("Guess Row:"))
     guess_col = int(input("Guess Col:"))
     
     if guess_row == ship_row and guess_col == ship_col:
         print ("Congratulations! You sunk my battleship!")
         break   
+    elif (guess_row < 0 or guess_row > 4) or (guess_col < 0 or guess_col > 4):
+        print ("Oops, that's not even in the ocean.")
+        turn-=1
+    elif(board[guess_row][guess_col] == "X"):
+        print ("You guessed that one already.")
+        turn-=1  
     else:
-        if (guess_row < 0 or guess_row > 4) or (guess_col < 0 or guess_col > 4):
-            print ("Oops, that's not even in the ocean.")
-        elif(board[guess_row][guess_col] == "X"):
-            print ("You guessed that one already.")
-        else:
-            print ("You missed my battleship!")
-            board[guess_row][guess_col] = "X"
-        print ("Turn", turn+1)
-    if turn==3:
+        print ("You missed my battleship!")
+        board[guess_row][guess_col] = "X"
+    print ("Turn", turn+1)		
+    turn+=1    
+    if turn==5:    
         print ("Game Over")
-    print_board(board)
+        print_board(board)
+    
+board[ship_row][ship_col]="#"
+print("The actual battleship is here:")
+print_board(board)
